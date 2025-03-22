@@ -63,33 +63,19 @@ namespace programGraph
 
             List<Poligono> poligonosU = new List<Poligono>
                 {
-                    // Parte trasera del lado izq
                     new Poligono(new List<Punto> { puntosU[4], puntosU[12], puntosU[15], puntosU[7] }, 1.5f, 0.5f, 0.5f),
-                    // Parte trasera inferior
                     new Poligono(new List<Punto> { puntosU[7], puntosU[15], puntosU[14], puntosU[6] }, 1.5f, 0.5f, 0.5f),
-                    // Parte trasera del lado der
                     new Poligono(new List<Punto> { puntosU[13], puntosU[5], puntosU[6], puntosU[14] }, 1.5f, 0.5f, 0.5f),
-                    // Parte delantera del lado izq
-                    new Poligono(new List<Punto> { puntosU[0], puntosU[8], puntosU[11], puntosU[3] }, 1.0f, 1.0f, 1.5f),
-                    // Parte delantera inferior
-                    new Poligono(new List<Punto> { puntosU[3], puntosU[11], puntosU[10], puntosU[2] }, 1.0f, 1.0f, 1.5f),
-                    // Parte delantera del lado der
-                    new Poligono(new List<Punto> { puntosU[9], puntosU[1], puntosU[2], puntosU[10] }, 1.0f, 1.0f, 1.5f),
-                    // Lado izquierdo
-                    new Poligono(new List<Punto> { puntosU[0], puntosU[4], puntosU[7], puntosU[3] }, 0.0f, 0.0f, 1.0f),
-                    // Lado izquierdo der
-                    new Poligono(new List<Punto> { puntosU[8], puntosU[12], puntosU[15], puntosU[11] }, 0.0f, 0.0f, 1.0f),
-                    // Lado derecho
-                    new Poligono(new List<Punto> { puntosU[1], puntosU[5], puntosU[6], puntosU[2] }, 1.0f, 1.0f, 0.0f),
-                    // Lado derecho izq
-                    new Poligono(new List<Punto> { puntosU[9], puntosU[13], puntosU[14], puntosU[10] }, 1.0f, 1.0f, 0.0f),
-                    // Parte inferior abajo
-                    new Poligono(new List<Punto> { puntosU[3], puntosU[7], puntosU[6], puntosU[2] }, 1.0f, 0.0f, 1.0f),
-                    // Parte inferior arriba
+                    new Poligono(new List<Punto> { puntosU[0], puntosU[8], puntosU[11], puntosU[3] }, 1.5f, 0.5f, 0.5f),
+                    new Poligono(new List<Punto> { puntosU[3], puntosU[11], puntosU[10], puntosU[2] }, 1.5f, 0.5f, 0.5f),
+                    new Poligono(new List<Punto> { puntosU[9], puntosU[1], puntosU[2], puntosU[10] }, 1.5f, 0.5f, 0.5f),
+                    new Poligono(new List<Punto> { puntosU[0], puntosU[4], puntosU[7], puntosU[3] }, 1.5f, 0.5f, 0.5f),
+                    new Poligono(new List<Punto> { puntosU[8], puntosU[12], puntosU[15], puntosU[11] }, 1.5f, 0.5f, 0.5f),                   
+                    new Poligono(new List<Punto> { puntosU[1], puntosU[5], puntosU[6], puntosU[2] }, 1.5f, 0.5f, 0.5f),
+                    new Poligono(new List<Punto> { puntosU[9], puntosU[13], puntosU[14], puntosU[10] }, 1.5f, 0.5f, 0.5f),
+                    new Poligono(new List<Punto> { puntosU[3], puntosU[7], puntosU[6], puntosU[2] }, 1.5f, 0.5f, 0.5f),
                     new Poligono(new List<Punto> { puntosU[11], puntosU[15], puntosU[14], puntosU[10] }, 1.0f, 0.0f, 1.0f),
-                    // Parte superior izq
                     new Poligono(new List<Punto> { puntosU[0], puntosU[8], puntosU[12], puntosU[4] }, 0.0f, 1.0f, 1.0f),
-                    // Parte superior der
                     new Poligono(new List<Punto> { puntosU[9], puntosU[1], puntosU[5], puntosU[13] }, 0.0f, 1.0f, 1.0f)
                 };
 
@@ -101,10 +87,21 @@ namespace programGraph
             }
 
             Objeto objetoU = new Objeto();
+            Objeto objetoU2 = new Objeto();
+            Objeto objetoU3 = new Objeto();
+
             objetoU.Addparte(partesU);
+            objetoU2.Addparte(partesU);
+            objetoU3.Addparte(partesU);
+
+            objetoU.setCentro(new Punto(2, 2, 2));
+            objetoU2.setCentro(new Punto(-1, 2, 3));
+            objetoU3.setCentro(new Punto(-1, -2, 2));
 
             escenario = new Escenario();
-            escenario.AddObjeto("U", objetoU);
+            escenario.AddObjeto("U1", objetoU);
+            escenario.AddObjeto("U2", objetoU2);
+            escenario.AddObjeto("U3", objetoU3);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -120,7 +117,6 @@ namespace programGraph
             // Aplicar la traslación para el zoom
             GL.Translate(0.0f, 0.0f, -zoom);
 
-            // Aplicar la rotación de la vista basada en el mouse
             GL.Rotate(pitch, 1.0f, 0.0f, 0.0f); // Rotar alrededor del eje X
             GL.Rotate(yaw, 0.0f, 1.0f, 0.0f);   // Rotar alrededor del eje Y
 

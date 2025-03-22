@@ -11,7 +11,7 @@ namespace Program
         {
             Console.WriteLine("hola mundo");
 
-            using (Game game = new(800, 800))
+            using (Game game = new(800, 600))
             {
                 game.Run();
             }
