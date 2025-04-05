@@ -101,7 +101,7 @@ namespace programGraph
             escenario = new Escenario();
             escenario.AddObjeto("U1", objetoU);
             escenario.AddObjeto("U2", objetoU2);
-            escenario.AddObjeto("U3", objetoU3);
+            //escenario.AddObjeto("U3", objetoU3);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
