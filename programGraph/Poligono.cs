@@ -8,9 +8,9 @@ using OpenTK.Graphics.OpenGL;
 
 namespace programGraph
 {
-    internal class Poligono : IGraphics
+    public class Poligono : IGraphics
     {
-        private List<Punto> puntos;
+        public List<Punto> puntos { get; set; } = new List<Punto>();
         private float[] color;
         public Punto centro { get; set; } = new Punto();
         public PrimitiveType primitiveType { get; set; } = new PrimitiveType();

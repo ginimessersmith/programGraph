@@ -7,9 +7,9 @@ using OpenTK.Graphics.OpenGL;
 
 namespace programGraph
 {
-    internal class Objeto : IGraphics
+    public class Objeto : IGraphics
     {
-        private List<Parte> listaPartes;
+        public List<Parte> listaPartes { get; set; } = new List<Parte>();
         private Punto centroDeMasa;
 
         public Objeto()
@@ -75,7 +75,6 @@ namespace programGraph
         public void setCentro(Punto centro)
         {
             centroDeMasa = centro;
-
         }
 
         public void trasladar(Punto valorTralado)

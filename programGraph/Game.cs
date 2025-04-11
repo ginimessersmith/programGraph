@@ -8,6 +8,8 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text.Json;
 
 namespace programGraph
 {
@@ -99,7 +101,33 @@ namespace programGraph
             objetoU3.setCentro(new Punto(-1, -2, 2));
 
             escenario = new Escenario();
-            escenario.AddObjeto("U1", objetoU);
+            
+            Serializacion.Save("objetoU", objetoU);
+            Objeto objetoJson = new Objeto();
+            objetoJson = Serializacion.Load("objetoU");
+            /*
+            if (data != null)
+            {
+                Console.WriteLine("Se cargó el objeto correctamente.");
+                data.setCentro(new Punto(2, 2, 2));
+                string jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+                Console.WriteLine(jsonData);
+                string jsonData2 = JsonSerializer.Serialize(objetoU2, new JsonSerializerOptions { WriteIndented = true });
+                Console.WriteLine("Objeto U2:");
+                Console.WriteLine(jsonData2);
+                escenario.AddObjeto("U1", data);
+            }
+            else
+            {
+                Console.WriteLine("No se pudo cargar el objeto.");
+            }*/
+            string jsonData = JsonSerializer.Serialize(objetoJson, new JsonSerializerOptions { WriteIndented = true });
+            Console.WriteLine(jsonData);
+            objetoJson.setCentro(new Punto(2, 2, 2));
+            escenario.AddObjeto("U1", objetoJson);
+            objetoU2.setCentro(new Punto(3, 0, 0));
+            string jsonData2 = JsonSerializer.Serialize(objetoJson, new JsonSerializerOptions { WriteIndented = true });
+            Console.WriteLine(jsonData2);
             escenario.AddObjeto("U2", objetoU2);
             //escenario.AddObjeto("U3", objetoU3);
         }

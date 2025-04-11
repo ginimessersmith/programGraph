@@ -8,9 +8,9 @@ using OpenTK;
 
 namespace programGraph
 {
-    internal class Parte : IGraphics
+    public class Parte : IGraphics
     {
-        private List<Poligono> listaPoligonos;
+        public List<Poligono> listaPoligonos { get; set; } = new List<Poligono>();
         private Punto centroMasa;
         public Punto centro { get; set; }
 

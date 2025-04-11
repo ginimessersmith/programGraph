@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace programGraph
 {
-    internal class Escenario
+    public class Escenario
     {
-        private Dictionary<String, Objeto> listaDeObjetos;
+        public Dictionary<String, Objeto> listaDeObjetos { get; set; } = new Dictionary<string, Objeto>();
 
         public Escenario()
         {

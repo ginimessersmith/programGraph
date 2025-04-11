@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace programGraph
 {
-    internal class Punto
+    public class Punto
     {
         public float X {get;set;}
         public float Y {get;set;}
