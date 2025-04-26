@@ -72,7 +72,7 @@ namespace programGraph
                     new Poligono(new List<Punto> { puntosU[3], puntosU[11], puntosU[10], puntosU[2] }, 1.5f, 0.5f, 0.5f),
                     new Poligono(new List<Punto> { puntosU[9], puntosU[1], puntosU[2], puntosU[10] }, 1.5f, 0.5f, 0.5f),
                     new Poligono(new List<Punto> { puntosU[0], puntosU[4], puntosU[7], puntosU[3] }, 1.5f, 0.5f, 0.5f),
-                    new Poligono(new List<Punto> { puntosU[8], puntosU[12], puntosU[15], puntosU[11] }, 1.5f, 0.5f, 0.5f),                   
+                    new Poligono(new List<Punto> { puntosU[8], puntosU[12], puntosU[15], puntosU[11] }, 1.5f, 0.5f, 0.5f),
                     new Poligono(new List<Punto> { puntosU[1], puntosU[5], puntosU[6], puntosU[2] }, 1.5f, 0.5f, 0.5f),
                     new Poligono(new List<Punto> { puntosU[9], puntosU[13], puntosU[14], puntosU[10] }, 1.5f, 0.5f, 0.5f),
                     new Poligono(new List<Punto> { puntosU[3], puntosU[7], puntosU[6], puntosU[2] }, 1.5f, 0.5f, 0.5f),
@@ -88,12 +88,16 @@ namespace programGraph
                 partesU.AddPoligono(poligono);
             }
 
+            var parteParaU2 = new Parte();
+            foreach (var p in poligonosU)
+                parteParaU2.AddPoligono(p.Clone());
+
             Objeto objetoU = new Objeto();
             Objeto objetoU2 = new Objeto();
             Objeto objetoU3 = new Objeto();
 
             objetoU.Addparte(partesU);
-            objetoU2.Addparte(partesU);
+            objetoU2.Addparte(parteParaU2);
             objetoU3.Addparte(partesU);
 
             objetoU.setCentro(new Punto(2, 2, 2));
@@ -101,10 +105,10 @@ namespace programGraph
             objetoU3.setCentro(new Punto(-1, -2, 2));
 
             escenario = new Escenario();
-            
-            Serializacion.Save("objetoU", objetoU);
-            Objeto objetoJson = new Objeto();
-            objetoJson = Serializacion.Load("objetoU");
+            objetoU.setCentro(new Punto(0, 0, 0));
+            Serializacion.Save<Objeto>("objetoU", objetoU);
+            //Objeto objetoJson = new Objeto();
+            //Objeto objetoJson = Serializacion.Load<Objeto>("objetoU");
             /*
             if (data != null)
             {
@@ -121,14 +125,26 @@ namespace programGraph
             {
                 Console.WriteLine("No se pudo cargar el objeto.");
             }*/
-            string jsonData = JsonSerializer.Serialize(objetoJson, new JsonSerializerOptions { WriteIndented = true });
-            Console.WriteLine(jsonData);
-            objetoJson.setCentro(new Punto(2, 2, 2));
-            escenario.AddObjeto("U1", objetoJson);
-            objetoU2.setCentro(new Punto(3, 0, 0));
-            string jsonData2 = JsonSerializer.Serialize(objetoJson, new JsonSerializerOptions { WriteIndented = true });
-            Console.WriteLine(jsonData2);
+            //string jsonData = JsonSerializer.Serialize(objetoJson, new JsonSerializerOptions { WriteIndented = true });
+            Console.WriteLine("OBJETO JSON-------------------------------------------------------------");
+            //Console.WriteLine(jsonData);
+            //escenario.AddObjeto("U1", objetoJson);
+            Punto puntoDeTraslado = new Punto(1,0,0);
+            Punto puntoDeTraslado2 = new Punto(-1, 0, 0);
+            Punto puntoDeRotacion = new Punto(25,0, 0);
+            objetoU.trasladar(puntoDeTraslado);
+            //objetoU.setCentro(puntoDeTraslado);
+            objetoU.escalar(0.4f);
+            objetoU.rotar(puntoDeRotacion);
+            escenario.AddObjeto("U1", objetoU);
+            objetoU2.trasladar(puntoDeTraslado2);
+            objetoU2.escalar(0.5f);
             escenario.AddObjeto("U2", objetoU2);
+            // objetoU2.setCentro(new Punto(-3, 0, 0));
+            // string jsonData2 = JsonSerializer.Serialize(objetoJson, new JsonSerializerOptions { WriteIndented = true });
+            // Console.WriteLine("OBJETO -------------------------------------------------------------");
+            //Console.WriteLine(jsonData2);
+            //escenario.AddObjeto("U2", objetoU2);
             //escenario.AddObjeto("U3", objetoU3);
         }
 

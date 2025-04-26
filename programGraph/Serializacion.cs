@@ -9,9 +9,14 @@ using System.Xml.Linq;
 
 namespace programGraph
 {
-    internal class Serializacion
+    public static class Serializacion
     {
-        public static void Save(string name, Objeto objeto, string path = @"C:\Users\gbg\Desktop\University and College\Programacion Grafica SEM 1-2025\Files") 
+        private static JsonSerializerOptions _options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            IncludeFields = true,
+        };
+        public static void Save<T>(string name,  T objeto, string path = @"C:\Users\gbg\Desktop\University and College\Programacion Grafica SEM 1-2025\Files") 
         {
             
             try
@@ -37,16 +42,16 @@ namespace programGraph
             }
         }
 
-        public static Objeto Load(string nameObject, string path= @"C:\Users\gbg\Desktop\University and College\Programacion Grafica SEM 1-2025\Files\") 
+        public static T Load<T>(string nameObject, string path= @"C:\Users\gbg\Desktop\University and College\Programacion Grafica SEM 1-2025\Files\") 
         {
-
-            /*try
+     
+            try
             {
                 
                 if (!Directory.Exists(path))
                 {
                     Console.WriteLine("El directorio no existe");
-                    return null;
+                    return default;
                 }
 
                 string rutaDirectorio = Path.Combine(path, nameObject + ".json");
@@ -54,35 +59,19 @@ namespace programGraph
                 if (!File.Exists(rutaDirectorio))
                 {
                     Console.WriteLine("El archivo no existe: " + rutaDirectorio);
-                    return null;
+                    return default;
                 }
 
                 string data = File.ReadAllText(rutaDirectorio);
-                Objeto? objeto = JsonSerializer.Deserialize<Objeto>(data);
-                Console.WriteLine("Objeto obtenido con exito");
-                return objeto;
+                return JsonSerializer.Deserialize<T>(data);
             }
             catch (Exception ex) 
             {
                 Console.WriteLine("-----------------Error");
                 Console.WriteLine(ex.ToString());
-               return null;
-            }*/
+                return default;
+            }
 
-            Objeto objeto = new Objeto();
-            path += nameObject + ".json";
-            try
-            {
-                string serie = File.ReadAllText(path);
-                objeto = JsonSerializer.Deserialize<Objeto>(serie);
-                Console.WriteLine("Objeto obtenido con exito");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("-----------------Error");
-                Console.WriteLine(e.Message);
-            }
-            return objeto;
         }
     }
 }

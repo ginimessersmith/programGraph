@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 
@@ -11,11 +12,12 @@ namespace programGraph
     {
         public List<Parte> listaPartes { get; set; } = new List<Parte>();
         private Punto centroDeMasa;
+        [JsonConstructor]
 
         public Objeto()
         {
             listaPartes = new List<Parte>();
-            centroDeMasa = new Punto(0.0f, 0.0f, 0.0f); // Inicialmente en el origen
+            centroDeMasa = new Punto(0.0f, 0.0f, 0.0f); 
         }
 
         public Punto centro { get ; set; }
@@ -23,69 +25,83 @@ namespace programGraph
         public Punto calcularCentroMasa()
         {
             if (listaPartes.Count == 0)
+                return new Punto(0, 0, 0);
+
+            float sumX = 0, sumY = 0, sumZ = 0;
+            foreach (var parte in listaPartes)
             {
-                return new Punto(0.0f, 0.0f, 0.0f);
+                var c = parte.calcularCentroMasa();
+                sumX += c.X;
+                sumY += c.Y;
+                sumZ += c.Z;
             }
-            else
-            {
-                float ejeX = 0;
-                float ejeY = 0;
-                float ejeZ = 0;
-
-                foreach (var valor in listaPartes)
-                {
-                    Parte parte = valor;
-                    ejeX += parte.calcularCentroMasa().Y;
-                    ejeY += parte.calcularCentroMasa().Y;
-                    ejeZ += parte.calcularCentroMasa().Z;
-                }
-
-                int numPartes = listaPartes.Count;
-                float promedioEjeX = ejeX / numPartes;
-                float promedioEjeY = ejeY / numPartes;
-                float promedioEjeZ = ejeZ / numPartes;
-
-                return new Punto(promedioEjeX, promedioEjeY, promedioEjeZ);
-            }
+            float n = listaPartes.Count;
+            return new Punto(sumX / n, sumY / n, sumZ / n);
         }
 
         public void Dibujar()
         {
-            GL.PushMatrix();
-            GL.Translate(centroDeMasa.X, centroDeMasa.Y, centroDeMasa.Z);
+            // Asegúrate de estar en el modelo de vista
+            GL.MatrixMode(MatrixMode.Modelview);
 
+            // Guarda la matriz actual
+            GL.PushMatrix();
+
+            // Traslada TODO el objeto a su centro lógico
+            GL.Translate(centro.X, centro.Y, centro.Z);
+
+            // Dibuja sus partes en coordenadas *locales*
             foreach (var parte in listaPartes)
             {
                 parte.Dibujar();
             }
 
+            // Restaura la matriz previa
             GL.PopMatrix();
         }
 
         public void escalar(float factor)
         {
-            throw new NotImplementedException();
+            foreach (var item in listaPartes) 
+            {
+                item.setCentro(this.centro);
+                item.escalar(factor);
+            }
+
+            //this.centro = calcularCentroMasa();
         }
 
         public void rotar(Punto angulo)
         {
-            throw new NotImplementedException();
+            foreach (var item in listaPartes) 
+            {
+                item.setCentro(this.centro);
+                item.rotar(angulo);
+            }
         }
 
         public void setCentro(Punto centro)
         {
-            centroDeMasa = centro;
+            foreach (var item in listaPartes) { 
+                item.setCentro(centro); 
+            }   
         }
 
         public void trasladar(Punto valorTralado)
         {
-            throw new NotImplementedException();
+            
+            foreach (var item in listaPartes) {
+                item.setCentro(this.centro);
+                item.trasladar(valorTralado);
+            }
+            this.centro = calcularCentroMasa();
         }
 
         public void Addparte(Parte parte)
         {
             listaPartes.Add(parte);
             this.centro = calcularCentroMasa();
+            return;
         }
 
         public List<Parte> Getpartes()

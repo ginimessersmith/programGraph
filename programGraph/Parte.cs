@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
+using System.Text.Json.Serialization;
 
 namespace programGraph
 {
     public class Parte : IGraphics
     {
         public List<Poligono> listaPoligonos { get; set; } = new List<Poligono>();
-        private Punto centroMasa;
         public Punto centro { get; set; }
-
-       public Parte()
+        [JsonConstructor]
+        public Parte()
         {
-            listaPoligonos = new List<Poligono>(); 
-            centroMasa = new Punto(0.0f, 0.0f, 0.0f);
+            listaPoligonos = new List<Poligono>();
+            centro = new Punto(0.0f, 0.0f, 0.0f);
         }
         public Punto calcularCentroMasa()
         {
@@ -34,7 +34,7 @@ namespace programGraph
 
                 foreach (var valor in listaPoligonos)
                 {
-                    
+
                     Poligono poligono = valor;
 
                     Punto centroPoligono = poligono.calcularCentroMasa();
@@ -55,8 +55,14 @@ namespace programGraph
 
         public void Dibujar()
         {
+            GL.MatrixMode(MatrixMode.Modelview);
+
+            // Guardamos la matriz actual
             GL.PushMatrix();
-            GL.Translate(centroMasa.X, centroMasa.Y, centroMasa.Z);
+
+            // Movemos toda la parte a su posición lógica
+            GL.Translate(centro.X, centro.Y, centro.Z);
+
             foreach (var poligono in listaPoligonos)
             {
                 poligono.Dibujar();
@@ -67,23 +73,41 @@ namespace programGraph
 
         public void escalar(float factor)
         {
-            throw new NotImplementedException();
+            foreach (var item in listaPoligonos) 
+            {
+                item.setCentro(this.centro);
+                item.escalar(factor);
+            }
+            this.centro = calcularCentroMasa();
         }
 
         public void rotar(Punto angulo)
         {
-            throw new NotImplementedException();
+            foreach (var item in listaPoligonos) 
+            {
+                item.setCentro(this.centro);
+                item.rotar(angulo);
+            }
         }
 
         public void setCentro(Punto centro)
         {
-            centroMasa = centro;
-
+            foreach (var item in listaPoligonos) { 
+                item.setCentro(centro);
+            }
+            this.centro = centro;
         }
 
         public void trasladar(Punto valorTralado)
         {
-            throw new NotImplementedException();
+            
+            foreach (var item in listaPoligonos) { 
+                item.setCentro(this.centro);
+                item.trasladar(valorTralado);
+                
+            }
+            this.centro = calcularCentroMasa();
+
         }
 
         public List<Poligono> GetPoligonos()
