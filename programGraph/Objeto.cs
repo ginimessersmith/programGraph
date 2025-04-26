@@ -68,7 +68,7 @@ namespace programGraph
                 item.escalar(factor);
             }
 
-            //this.centro = calcularCentroMasa();
+            this.centro = calcularCentroMasa();
         }
 
         public void rotar(Punto angulo)
@@ -95,6 +95,13 @@ namespace programGraph
                 item.trasladar(valorTralado);
             }
             this.centro = calcularCentroMasa();
+        }
+
+        public Parte GetParte(int idx) 
+        {
+            Console.WriteLine(idx);
+            Console.WriteLine(listaPartes.Count);
+            return listaPartes[idx];    
         }
 
         public void Addparte(Parte parte)

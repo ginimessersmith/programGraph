@@ -108,7 +108,7 @@ namespace programGraph
             objetoU.setCentro(new Punto(0, 0, 0));
             Serializacion.Save<Objeto>("objetoU", objetoU);
             //Objeto objetoJson = new Objeto();
-            //Objeto objetoJson = Serializacion.Load<Objeto>("objetoU");
+            Objeto objetoJson = Serializacion.Load<Objeto>("objetoU");
             /*
             if (data != null)
             {
@@ -126,26 +126,30 @@ namespace programGraph
                 Console.WriteLine("No se pudo cargar el objeto.");
             }*/
             //string jsonData = JsonSerializer.Serialize(objetoJson, new JsonSerializerOptions { WriteIndented = true });
-            Console.WriteLine("OBJETO JSON-------------------------------------------------------------");
+            //Console.WriteLine("OBJETO JSON-------------------------------------------------------------");
             //Console.WriteLine(jsonData);
             //escenario.AddObjeto("U1", objetoJson);
-            Punto puntoDeTraslado = new Punto(1,0,0);
+
+            // objetoU2.setCentro(new Punto(-3, 0, 0));
+            string jsonData2 = JsonSerializer.Serialize(objetoJson, new JsonSerializerOptions { WriteIndented = true });
+            Console.WriteLine("OBJETO -------------------------------------------------------------");
+            Console.WriteLine(jsonData2);
+            //escenario.AddObjeto("U2J", objetoJson);
+            //escenario.AddObjeto("U3", objetoU3);
+            Punto puntoDeTraslado = new Punto(1, 0, 0);
             Punto puntoDeTraslado2 = new Punto(-1, 0, 0);
-            Punto puntoDeRotacion = new Punto(25,0, 0);
+            Punto puntoDeRotacion = new Punto(0, 90, 0);
             objetoU.trasladar(puntoDeTraslado);
-            //objetoU.setCentro(puntoDeTraslado);
             objetoU.escalar(0.4f);
             objetoU.rotar(puntoDeRotacion);
+            Punto puntoDeTrasladoP = new Punto(0, 5, 0);
+            objetoU.GetParte(0).trasladar(puntoDeTrasladoP);
             escenario.AddObjeto("U1", objetoU);
             objetoU2.trasladar(puntoDeTraslado2);
             objetoU2.escalar(0.5f);
+            Punto puntoDeRotacion1 = new Punto(0, 20, 0);
+            //objetoU2.rotar(puntoDeRotacion1);
             escenario.AddObjeto("U2", objetoU2);
-            // objetoU2.setCentro(new Punto(-3, 0, 0));
-            // string jsonData2 = JsonSerializer.Serialize(objetoJson, new JsonSerializerOptions { WriteIndented = true });
-            // Console.WriteLine("OBJETO -------------------------------------------------------------");
-            //Console.WriteLine(jsonData2);
-            //escenario.AddObjeto("U2", objetoU2);
-            //escenario.AddObjeto("U3", objetoU3);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)

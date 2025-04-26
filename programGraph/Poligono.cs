@@ -17,7 +17,7 @@ namespace programGraph
         public Punto CentroDependiente { get; set; }
 
         public PrimitiveType primitiveType { get; set; } = new PrimitiveType();
-        [JsonConstructor]
+        //[JsonConstructor]
         public Poligono(List<Punto> listaPuntos, float r, float g, float b)
         {
             this.puntos = new List<Punto>(listaPuntos);
@@ -121,22 +121,17 @@ namespace programGraph
             var ry = Matrix4.CreateRotationY(MathHelper.DegreesToRadians(angulo.Y));
             var rz = Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(angulo.Z));
             var transform = rx * ry * rz;
-
-            // Aplicamos la rotación a cada punto
             for (int i = 0; i < puntos.Count; i++)
             {
                 var p = puntos[i];
-                // Convertimos a vector relativo al centro
                 var v = new Vector4(p.X - centro.X, p.Y - centro.Y, p.Z - centro.Z, 1f);
                 var r = Vector4.Transform(v, transform);
-                // Asignamos el punto rotado de vuelta, re-centrando
                 puntos[i] = new Punto(
                     centro.X + r.X,
                     centro.Y + r.Y,
                     centro.Z + r.Z
                 );
             }
-            // Recalcula el centro si es necesario
             centro = calcularCentroMasa();
         }
 

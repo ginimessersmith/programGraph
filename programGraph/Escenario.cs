@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace programGraph
@@ -10,7 +11,7 @@ namespace programGraph
     {
         public Dictionary<String, Objeto> listaDeObjetos { get; set; } = new Dictionary<string, Objeto>();
         public Punto centro { get; set; } = new Punto();
-
+        [JsonConstructor]
         public Escenario()
         {
             listaDeObjetos = new Dictionary<string, Objeto>();
@@ -56,7 +57,6 @@ namespace programGraph
 
                 foreach (var item in listaDeObjetos) {
                     Punto centro = item.Value.calcularCentroMasa();
-
                     sumaX += centro.X;
                     sumaY += centro.Y;
                     sumaZ += centro.Z;
